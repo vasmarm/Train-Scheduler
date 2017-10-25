@@ -76,11 +76,12 @@ $("#add-train-btn").on("click", function(event) {
   // Calculating difference between Current Time and first train
   var diffTime = moment().diff(moment(firstTimeConverted), "minutes");
   
-
+  // Calculating tRemainder by getting the remainder when diff time is divided by frequency
   var tRemainder = diffTime % trainFrequency;
   
   var tMinutesTillTrain = trainFrequency - tRemainder;
   
+  // Calculating next arrival
   var nextArrival = moment().add(tMinutesTillTrain, "minutes").format('D. MMMM H:mm');
 
   // Displaying data in the table after formating it
