@@ -10,14 +10,19 @@ var config = {
     messagingSenderId: "425818475658"
 };
 
+function update() {
+  $('#current-time').html(moment().format('D. MMMM YYYY H:mm:ss'));
+}
+
+setInterval(update, 1000);
+
+// Initializing firebase
 firebase.initializeApp(config);
 
+// Creating firebase database variable
 var database = firebase.database();
 
-// variable for Displaying Current Time
-var currentTime = moment().format('LT');
-
-$("#current-time").append(moment().format('LT'));
+//$("#current-time").append(moment().format('LT'));
 
 // Button for adding Train
 $("#add-train-btn").on("click", function(event) {
@@ -35,7 +40,6 @@ $("#add-train-btn").on("click", function(event) {
     destination: destination,
     firstTrainTime: firstTrainTime,
     frequency: frequency,
-    timeNow: currentTime
   };
 
   // Uploads train data to the database
@@ -49,7 +53,6 @@ $("#add-train-btn").on("click", function(event) {
   $("#destination-input").val("");
   $("#first-train-time").val("");
   $("#frequency-input").val("");
-  $("#current-time").val("");
 });
 
   // Create Firebase event for adding employee to the database and a row in the html when a user adds an entry
@@ -61,22 +64,28 @@ $("#add-train-btn").on("click", function(event) {
   var trainFirstTime = childSnapshot.val().firstTrainTime;
   var trainFrequency = childSnapshot.val().frequency;
 
-
+  //----------------------//
+  //**********************//
   // Calculate Next Arrival
+  //----------------------//
+  //**********************//
 
+  // Capture First Train of the day
   var firstTimeConverted = moment(trainFirstTime, "hh:mm");
   
+  // Calculating difference between Current Time and first train
   var diffTime = moment().diff(moment(firstTimeConverted), "minutes");
   
+
   var tRemainder = diffTime % trainFrequency;
   
   var tMinutesTillTrain = trainFrequency - tRemainder;
   
-  var nextArrival = moment().add(tMinutesTillTrain, "minutes").format('LT');
+  var nextArrival = moment().add(tMinutesTillTrain, "minutes").format('D. MMMM H:mm');
   
 
   // Displaying data in the table after formating it
    $("#train-table > tbody").append("<tr><td>" + trainName + "</td><td>" + trainDestination + "</td><td>" +
-  trainFrequency + "</td><td>" + nextArrival + "</td><td>" + tMinutesTillTrain + "</td><td>" + currentTime +"</td></tr>");
+  trainFrequency + "</td><td>" + nextArrival + "</td><td>" + tMinutesTillTrain +"</td></tr>"); 
 
 });
