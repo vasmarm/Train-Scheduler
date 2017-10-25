@@ -82,10 +82,11 @@ $("#add-train-btn").on("click", function(event) {
   var tMinutesTillTrain = trainFrequency - tRemainder;
   
   var nextArrival = moment().add(tMinutesTillTrain, "minutes").format('D. MMMM H:mm');
-  
 
   // Displaying data in the table after formating it
    $("#train-table > tbody").append("<tr><td>" + trainName + "</td><td>" + trainDestination + "</td><td>" +
-  trainFrequency + "</td><td>" + nextArrival + "</td><td>" + tMinutesTillTrain +"</td></tr>"); 
-
+  trainFrequency + "</td><td>" + nextArrival + "</td><td>" + tMinutesTillTrain + "</td></tr>");
+  
 });
+
+
